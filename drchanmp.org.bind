@@ -1,0 +1,44 @@
+; Luadns.com has native support for Bind zone files
+; File: drchanmp.org.bind
+; Zone: drchanmp.org
+
+; Default origin is computed from the file name,
+; you may change the origin with $ORIGIN directive
+; Example:
+; $ORIGIN drchanmp.org.
+
+; Default TTL is account's [default TTL](https://api.luadns.com/users/edit),
+; you may change the default TTL with $TTL directive
+; Example:
+$TTL 86400 ; 1 day
+
+; The system will generate and maintain domain's SOA record automatically,
+; SOA records found in *.bind files are simply ignored
+drchanmp.org.        IN  SOA   ns1.bind.net.   hostmaster.bind.net.  (
+                              2012050901  ; serial
+                              20m         ; refresh (20 minutes)
+                              2m          ; retry (2 minutes)
+                              1w          ; expire (1 week)
+                              1h          ; minimum (1 hour)
+                              )
+
+; Domain NS records are replaced with system name servers
+                        NS      ns1.bind.net.
+                        NS      ns2.bind.net.
+                        NS      ns3.bind.net.
+                        NS      ns4.bind.net.
+
+; The rest of records
+@                       A       1.1.1.1
+@                       MX      5 aspmx.l.google.com.
+
+www                     CNAME   drchanmp.org.
+mail                    CNAME   ghs.google.com.
+
+; SPF record, see http://www.openspf.org/
+@                       TXT     "v=spf1 a mx include:_spf.google.com ~all"
+
+; SIP service available at the host sip.example.com
+_sip._udp               SRV     0 0 5060 sip.example.com.
+
+
